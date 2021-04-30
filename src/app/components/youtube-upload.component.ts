@@ -95,7 +95,7 @@ export class YoutubeUploadComponent {
           this.percentageUpload = Math.round(100 * data.loaded / data.total);
         } else if (data instanceof HttpResponse) {
           const response: any = data.body;
-          this.videoUrl = 'https://www.youtube.com/watch?v=' + response.id;
+          this.videoUrl = 'https://www.youtube.com/watch?v=neIiwpaaddA' + response.id;
           this.loading = false;
           this.alertService.success('video is uploaded to youtube successfully');
           this.dialogRef.close();
