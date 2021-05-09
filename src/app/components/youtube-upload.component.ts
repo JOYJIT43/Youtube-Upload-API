@@ -11,12 +11,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   selector: 'youtube-upload',
   template: `
     <div>
-      <div fxLayout="row" fxLayoutGap="30px" *ngIf="this.youtubeService.profile$ | async as profile">
-        <span>Your Connected Account is: <strong>{{profile.getEmail()}}</strong></span>
-        <span class="change" *ngIf="youtubeService.isAuthInit$ | async"
-              (click)="youtubeService.signIn()">change account</span>
-        <hr>
-      </div>
       <form *ngIf="youtubeService.profile$ | async" fxLayout="column"
             [formGroup]="this.videoForm" fxLayoutAlign="center stretch"
             (ngSubmit)="videoForm.get('privacyStatus').markAsTouched(); videoForm.valid && onSubmit()" novalidate fxFlexAlign="center"
@@ -54,11 +48,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
         </div>
         <button mat-raised-button fxFlexAlign="end" *ngIf="!loading" color="accent">Upload</button>
       </form>
-      <div *ngIf="(youtubeService.isAuthInit$ | async) && !(youtubeService.isSignedIn$ | async)" fxLayoutAlign="start center"
-           fxLayout="column">
-        <h2>Please re(Connect) your Youtube Account</h2>
-        <button (click)="this.youtubeService.signIn()" mat-raised-button color="primary">Sign In</button>
-      </div>
     </div>
   `,
   styles: [`
@@ -95,10 +84,12 @@ export class YoutubeUploadComponent {
           this.percentageUpload = Math.round(100 * data.loaded / data.total);
         } else if (data instanceof HttpResponse) {
           const response: any = data.body;
-          this.videoUrl = 'https://www.youtube.com/watch?v=' + response.id;
+        //  console.warn(response)
+          this.videoUrl = 'https://www.youtube.com/watch?v=neIiwpaaddA' + response['id'];
           this.loading = false;
           this.alertService.success('video is uploaded to youtube successfully');
           this.dialogRef.close();
+        //  console.log(data['body']['id'])
           // upload to my server
         }
       }, (error => {

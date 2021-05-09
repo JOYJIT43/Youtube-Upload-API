@@ -28,6 +28,9 @@ export class YoutubeService {
     this.user$.subscribe((user) => {
       if (user) {
         this.accessToken = user.getAuthResponse().access_token;
+        console.log("the value justt below is your access token stored to a variable named AKASH in YOUTUBE SERVICES")
+        console.log(this.accessToken)/****************************************************** */
+        const AKASH=this.accessToken
       }
     });
   }
@@ -49,26 +52,28 @@ export class YoutubeService {
       console.log(error, 'auth failed');
     });
 
-    auth.isSignedIn.listen((value) => this.zone.run(() => {
-      this.isSignedIn$.next(value);
-      if (!value) {
+/*     auth.isSignedIn.listen((value) => this.zone.run(() => {
+     this.isSignedIn$.next(value);
+     if (!value) {
         this.user$.next(null);
       }
     }));
-    auth.currentUser.listen((user) => this.zone.run(() => {
-      this.user$.next(user);
-    }));
+*/
+   auth.currentUser.listen((user) => this.zone.run(() => {  
+    this.user$.next(user);
+    }));/*
     if (auth.isSignedIn.get() === true) {
-      auth.signIn();
+     auth.signIn();
     }
-    this.zone.run(() => {
+   this.zone.run(() => {
       this.user$.next(auth.currentUser.get());
-    });
-  }
-
+    });*/
+}
   public signIn() {
     this.auth.signIn({prompt: 'select_account'});
-  }
+}
+
+
 
   uploadVideo(video: any,
               input: {
